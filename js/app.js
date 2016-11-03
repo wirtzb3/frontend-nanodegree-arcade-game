@@ -34,7 +34,7 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-  this.sprite = 'images/char-cat-girl.png';
+  this.sprite = 'images/char-pink-girl.png';
   this.x = 202;
   this.y = 400;
 };
@@ -56,12 +56,27 @@ Player.prototype.update = function(x, y) {
   if (newY < box.topEdge) {
     this.x = 202;
     this.y = 400;
+    alert('Yay! One point!')
     return this.render();
   }
-  this.x = newX;
-  this.y = newY;
-  this.render();
+  var that = this;
+  var collision = false;
+  allEnemies.forEach(function(enemy) {
+     if(that.x >= enemy.x - 25 && that.x <= enemy.x + 25) {
+     if (that.y >= enemy.y - 25 && that.y <= enemy.y + 25) {
+        collision = true;
+      }
+    }
+  });
 
+  if (collision) {
+    this.x = 202;
+    this.y = 404;
+  } else {
+    this.x = newX;
+    this.y = newY;
+  }
+  this.render();
 };
 
 Player.prototype.render = function() {
@@ -86,6 +101,33 @@ Player.prototype.handleInput = function (key) {
       alert('This is not a proper key');
   };
 };
+
+
+//       this.x = 202;
+//       this.y = 404;
+//       return this.render();
+//     }
+//       }
+
+// var checkCollisions = function() {
+// //Check height and width of new player(width = 171, height = 101)
+// //Check height and width of allEnemies (width = 171, height = 101)
+// //var playerBox= {x: newX, y: newY, width: 171, height: 101}
+// // var enemyBox= {x: this.x, y: this.y, width: 171, height: 101}
+// //
+// // if (playerBox.x < allEnemies.x + enemyBox.width &&
+// // //    playerBox.x + playerBox.width > enemyBox.x &&
+// // //    playerBox.y < enemyBox.y + enemyBox.height &&
+// // //    playerBox.height + playerBox.y > enemyBox.y) {
+// // //     // collision detected --> player needs to go back to start!
+//             this.x = 202;
+//             this.y = 404;
+//             this.render();
+// // // } else  (update and render player and bugs as normal. Bugs
+//             //should always have same characteristics regardless of impact)
+// //
+// //
+// };
 
 
 // Now instantiate your objects.
