@@ -19,11 +19,11 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.x > 505) {
-      this.x = -2;
-      //Give bug a new initial speed for each pass
-      this.speed = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+        this.x = -2;
+        //Give bug a new initial speed for each pass
+        this.speed = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
     } else {
-      this.x = this.x + this.speed * dt;
+          this.x = this.x + this.speed * dt;
     }
 };
 
@@ -36,55 +36,55 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-  this.sprite = 'images/char-pink-girl.png';
-  this.x = 202;
-  this.y = 400;
-  this.points = 0;
+    this.sprite = 'images/char-pink-girl.png';
+    this.x = 202;
+    this.y = 400;
+    this.points = 0;
 };
 
 Player.prototype.update = function(x, y) {
-  var box = {
-    leftEdge: 0,
-    topEdge: 30,
-    rightEdge: 498,
-    bottomEdge: 400
-  };
-  var newX = this.x + (x || 0);
-  var newY = this.y + (y || 0);
+    var box = {
+        LEFT_EDGE: 0,
+        TOP_EDGE: 30,
+        RIGHT_EDGE: 498,
+        BOTTOM_EDGE: 400
+    };
+    var newX = this.x + (x || 0);
+    var newY = this.y + (y || 0);
 
   //Render if in bounds of canvas
-  if (newX > box.rightEdge || newX < box.leftEdge || newY > box.bottomEdge) {
-    return this.render();
-  };
+    if (newX > box.RIGHT_EDGE || newX < box.LEFT_EDGE || newY > box.BOTTOM_EDGE) {
+        return this.render();
+    };
 
   //When player reaches top of canvas, reset player to start and add a point to score
-  if (newY < box.topEdge) {
-    this.x = 202;
-    this.y = 400;
-    this.points++;
-    return this.render();
-  };
+    if (newY < box.TOP_EDGE) {
+        this.x = 202;
+        this.y = 400;
+        this.points++;
+        return this.render();
+    };
   //Collision if player is within range of the enemy, inspiration from mashablair.github.io
-  var that = this;
-  var collision = false;
-  allEnemies.forEach(function(enemy) {
-     if(that.x >= enemy.x - 25 && that.x <= enemy.x + 25) {
-     if(that.y >= enemy.y - 25 && that.y <= enemy.y + 25) {
-        collision = true;
-      }
-    }
-  });
+    var that = this;
+    var collision = false;
+    allEnemies.forEach(function(enemy) {
+        if(that.x >= enemy.x - 25 && that.x <= enemy.x + 25) {
+        if(that.y >= enemy.y - 25 && that.y <= enemy.y + 25) {
+            collision = true;
+        }
+        }
+    });
 
-  if (collision) {
-    this.x = 202;
-    this.y = 400;
-    //If player hits bug, points decrease by 1, and player resets to start
-    this.points--;
-  } else {
-    this.x = newX;
-    this.y = newY;
-  }
-  this.render();
+    if (collision) {
+        this.x = 202;
+        this.y = 400;
+        //If player hits bug, points decrease by 1, and player resets to start
+        this.points--;
+    } else {
+        this.x = newX;
+        this.y = newY;
+    }
+    this.render();
 };
 
 Player.prototype.render = function() {
@@ -96,43 +96,43 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function (key) {
-  switch(key) {
-    case 'left':
-      this.update(-100, 0);
-      break;
-    case 'up':
-      this.update(0, -83);
-      break;
-    case 'right':
-      this.update(100, 0);
-      break;
-    case 'down':
-      this.update(0, 83);
-      break;
-    default:
-      null;
-  };
+    switch(key) {
+        case 'left':
+            this.update(-101, 0);
+            break;
+        case 'up':
+            this.update(0, -83);
+            break;
+        case 'right':
+            this.update(101, 0);
+            break;
+        case 'down':
+            this.update(0, 83);
+            break;
+        default:
+            null;
+    };
 };
 
 //Set up function to see if player has won
 Player.prototype.checkPoints = function() {
-  //When player reaches 10, player wins
-  if (this.points >= 10) {
-    return true;
-  }
-  return false;
+    //When player reaches 10, player wins
+    if (this.points >= 10) {
+        return true;
+    }
+    return false;
 };
 
 //If player has won, display feel good message
 Player.prototype.playerWins = function() {
-  if (this.checkPoints()) {
-    document.getElementById('win').setAttribute('style', 'display: block');
-    //Reset game once player reaches 10 points
-    document.getElementById('refresh').addEventListener('click', function () {
-      document.getElementById('win').setAttribute('style', 'display: none');
-      player.points = 0;
-    });
-  }
+    if (this.checkPoints()) {
+        document.getElementById('win').setAttribute('style', 'display: block');
+        //Reset game once player reaches 10 points
+        document.getElementById('refresh').addEventListener('click', function () {
+            document.getElementById('win').setAttribute('style', 'display: none');
+            this.points = 0;
+        });
+    }
 };
 
 // Now instantiate your objects.
