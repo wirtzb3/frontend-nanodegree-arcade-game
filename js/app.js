@@ -37,6 +37,7 @@ var Player = function() {
   this.sprite = 'images/char-pink-girl.png';
   this.x = 202;
   this.y = 400;
+  this.points = 0;
 };
 
 Player.prototype.update = function(x, y) {
@@ -56,14 +57,16 @@ Player.prototype.update = function(x, y) {
   if (newY < box.topEdge) {
     this.x = 202;
     this.y = 400;
-    alert('Yay! One point!')
+    this.points++;
+    this.checkPoints();
     return this.render();
   }
+
   var that = this;
   var collision = false;
   allEnemies.forEach(function(enemy) {
      if(that.x >= enemy.x - 25 && that.x <= enemy.x + 25) {
-     if (that.y >= enemy.y - 25 && that.y <= enemy.y + 25) {
+     if(that.y >= enemy.y - 25 && that.y <= enemy.y + 25) {
         collision = true;
       }
     }
@@ -71,7 +74,8 @@ Player.prototype.update = function(x, y) {
 
   if (collision) {
     this.x = 202;
-    this.y = 404;
+    this.y = 400;
+    this.points--;
   } else {
     this.x = newX;
     this.y = newY;
@@ -81,6 +85,7 @@ Player.prototype.update = function(x, y) {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    document.getElementById('numberPoints').innerHTML = this.points;
 };
 
 Player.prototype.handleInput = function (key) {
@@ -98,37 +103,17 @@ Player.prototype.handleInput = function (key) {
       this.update(0, 83);
       break;
     default:
-      alert('This is not a proper key');
+      null;
   };
 };
 
-
-//       this.x = 202;
-//       this.y = 404;
-//       return this.render();
-//     }
-//       }
-
-// var checkCollisions = function() {
-// //Check height and width of new player(width = 171, height = 101)
-// //Check height and width of allEnemies (width = 171, height = 101)
-// //var playerBox= {x: newX, y: newY, width: 171, height: 101}
-// // var enemyBox= {x: this.x, y: this.y, width: 171, height: 101}
-// //
-// // if (playerBox.x < allEnemies.x + enemyBox.width &&
-// // //    playerBox.x + playerBox.width > enemyBox.x &&
-// // //    playerBox.y < enemyBox.y + enemyBox.height &&
-// // //    playerBox.height + playerBox.y > enemyBox.y) {
-// // //     // collision detected --> player needs to go back to start!
-//             this.x = 202;
-//             this.y = 404;
-//             this.render();
-// // // } else  (update and render player and bugs as normal. Bugs
-//             //should always have same characteristics regardless of impact)
-// //
-// //
-// };
-
+//Set up function to see if player has won
+Player.prototype.checkPoints = function() {
+  if (this.points >= 10) {
+    return true;
+  }
+  return false;
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
