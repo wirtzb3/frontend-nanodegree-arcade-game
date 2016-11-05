@@ -7,7 +7,7 @@ frontend-nanodegree-arcade-game
 This is a rendition of the classic Arcade game, Frogger.
 
 ### Running the Program
-1. Click [here](https://github.io/wirtzb3/frontend-nanodegree-arcade-game) to play the game.
+1. Click [here](https://wirtzb3.github.io/frontend-nanodegree-arcade-game) to play the game.
 
 2. Use the arrow keys to move around the screen, avoiding the bugs.
 
